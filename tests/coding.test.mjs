@@ -4,6 +4,7 @@ import { mkdtemp, mkdir, writeFile, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { executeCommand, runCodingJob } from '../src/agents/coding.mjs';
+import { JobStore } from '../src/store.mjs';
 
 const wrong = 'export function add(a, b) { return a - b; }\n';
 const correct = 'export function add(a, b) { return a + b; }\n';
@@ -66,6 +67,22 @@ test('mock creates a real isolated branch, fixes the fixture, passes real checks
   assert.equal(replayed.jobId, result.jobId);
   assert.equal(replayed.patchSha256, result.patchSha256);
   assert.ok(commands.slice(before).every(command => !command.args.includes('worktree') && command.file !== process.execPath));
+});
+
+test('verbose passing checks keep private diagnostics while the queue result remains acknowledgeable', async t => {
+  const { options } = await fixture(t);
+  const result = await runCodingJob(event, { ...options, runCommand: command => command.file === process.execPath
+    ? Promise.resolve({ code: 0, stdout: 'synthetic diagnostic '.repeat(3000), stderr: '' }) : executeCommand(command) });
+  const store = new JobStore(':memory:');
+  try {
+    store.enqueue(event);
+    const leased = store.claim();
+    assert.equal(store.complete(leased.id, leased.leaseToken, result).state, 'completed');
+    assert.ok(Buffer.byteLength(JSON.stringify(result)) < 32_768);
+    assert.equal(result.checks[0].stdout, undefined);
+    const full = JSON.parse(await readFile(result.checksPath, 'utf8'));
+    assert.ok(full[0].stdout.length > 32_768);
+  } finally { store.close(); }
 });
 
 test('event-selected paths and commands cannot replace trusted configuration', async (t) => {

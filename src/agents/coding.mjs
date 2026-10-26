@@ -273,6 +273,8 @@ export async function runCodingJob(event, options = {}) {
         fail('Configured repository checks failed; publication is blocked');
       }
     }
+    const checksPath = path.join(jobRoot, 'checks.json');
+    await saveJson(checksPath, checks);
     const files = await changedPaths();
     await git(['add', '--', ...files]);
     const patch = await git(['diff', '--binary', state.baseCommit, '--']);
@@ -280,7 +282,10 @@ export async function runCodingJob(event, options = {}) {
     result = {
       version: 1, jobId, eventId: event.id, repository: event.repository, mode,
       status: 'review-ready', branch, baseCommit: state.baseCommit, worktree, reviewPath,
-      resultPath, changedFiles: files, checks, threadId: state.threadId,
+      resultPath, changedFiles: files, checksPath,
+      // Keep bounded HTTP/queue results small; verbose diagnostics remain in
+      // the private artifact file instead of making a successful job unackable.
+      checks: checks.map(({ command, exitCode }) => ({ command, exitCode })), threadId: state.threadId,
       patchSha256: hash(patch),
       modelSpendUsd: mode === 'mock' ? 0 : null,
       budgetPolicy: mode === 'mock' ? 'No model execution' : 'External enforcer is responsible for the cumulative $1 ceiling',

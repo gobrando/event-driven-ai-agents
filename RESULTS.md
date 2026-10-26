@@ -4,7 +4,7 @@ Evidence labels distinguish deterministic fixtures, actual local processes/conta
 
 | Check | Result | What it establishes |
 |---|---|---|
-| `npm run check` | **Passed: lint +45 tests** | Portable validation, SQL persistence/deduplication/lease fencing, HTTP signature/auth rejection, retry handling, real Git/check execution, bounded child processes, mocked publication recovery, and trigger contracts |
+| `npm run check` | **Passed: lint +46 tests** | Portable validation, SQL persistence/deduplication/lease fencing, HTTP signature/auth rejection, retry handling, real Git/check execution, bounded child processes and result summaries, mocked publication recovery, and trigger contracts |
 | `npm run demo` | **Passed:3 completed jobs** | Airtable fixture +GitHub fixture +actual signed localhost webhook each produce a real tested synthetic patch/review record; original checkout unchanged; duplicate replay does not start another job |
 | Documented fixture CLI commands | **Passed** | Airtable poll and GitHub ingestion enqueue into the selected shared DB; the standalone worker processes it |
 | Dedicated process test | **Passed** | Receiver and remote-style worker run as separate OS processes and exchange a real HTTP job/lease/result |
@@ -15,7 +15,7 @@ Evidence labels distinguish deterministic fixtures, actual local processes/conta
 | Quality-gate negative controls | **Passed** | ESLint rejects an unused-variable input; the tampered-delivery test fails against a deliberate signature-bypass mutation in a disposable source copy; actual source unchanged |
 | Root production dependency audit | **Passed:0 findings** | Root portable runtime has no third-party production dependencies; this does not cover the optional Vercel dependency tree |
 | Public-source inspection | **Passed** | Source/fixtures/config reviewed for personal paths, private-source identifiers, real credentials, auth files and private package URLs; runtime state remains ignored |
-| GitHub-hosted CI/manual synthetic workflow | **Pending publication** | Links and observed conclusions will be recorded after the new public repository runs its workflows |
+| GitHub-hosted CI/manual synthetic workflow | **Passed** | The [CI workflow](https://github.com/gobrando/event-driven-ai-agents/actions/workflows/ci.yml) ran portable tests/demo, Vercel contracts/demo, and container packaging/smoke on GitHub-hosted Linux. The [manual synthetic workflow](https://github.com/gobrando/event-driven-ai-agents/actions/runs/40364974545) also completed successfully without secrets or model calls |
 
 All model spend during these checks was **$0**. Local Git branches and patches are synthetic test artifacts. No agent-generated remote PRs, live subscriptions, production deployments, Airtable writes or provider-event changes were made.
 

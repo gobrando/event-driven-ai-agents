@@ -23,7 +23,7 @@ const result = await runCodingJob({
 }, trustedConfiguration);
 ```
 
-The job key derives from source, event ID, and configured repository key. Replays reuse the worktree and saved result. Reusing that identity with changed ticket content or trusted configuration is rejected. Run only one leased execution for a given job key at a time; the shared queue/store owns concurrency. Failed jobs retain their worktree and bounded diagnostics for inspection. An operator can remove disposable worktrees with `git worktree remove <path>` and delete their local job directory after preserving evidence.
+The job key derives from source, event ID, and configured repository key. Replays reuse the worktree and saved result. Reusing that identity with changed ticket content or trusted configuration is rejected. Run only one leased execution for a given job key at a time; the shared queue/store owns concurrency. Failed jobs retain their worktree and bounded diagnostics for inspection. Successful check output is retained in private `checks.json`; the queue result carries command/exit-code summaries and an artifact path so verbose tests do not exceed the HTTP result limit. An operator can remove disposable worktrees with `git worktree remove <path>` and delete their local job directory after preserving evidence.
 
 ## Checks and execution boundaries
 
