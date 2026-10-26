@@ -1,0 +1,10 @@
+{
+  "action": "labeled",
+  "label": { "name": "ready-for-agent" },
+  "issue": {
+    "number": 1,
+    "updated_at": "2026-10-26T12:00:00.000Z",
+    "title": "Correct addition in the synthetic calculator",
+    "body": "Synthetic example: add(2, 3) should return 5. Prepare and test the fix."
+  }
+}

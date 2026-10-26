@@ -1,0 +1,49 @@
+# Opt-in example. Copy into .github/workflows only after reviewing repository policy.
+name: Enqueue a reviewed agent ticket
+
+on:
+  issues:
+    types: [labeled]
+  repository_dispatch:
+    types: [ticket-ready]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agent-ticket-demo
+  cancel-in-progress: false
+
+jobs:
+  enqueue-and-process:
+    if: github.event_name == 'repository_dispatch' || github.event.label.name == 'ready-for-agent'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Require a repository maintainer
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const response = await github.request('GET /repos/{owner}/{repo}/collaborators/{username}/permission', {
+              ...context.repo,
+              username: context.actor,
+            });
+            if (!['admin', 'write'].includes(response.data.permission)) {
+              core.setFailed('Only a maintainer may enqueue an agent ticket.');
+            }
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Enqueue the delivery file as data
+        env:
+          ALLOW_LIVE_TRIGGERS: 'true'
+          GITHUB_TRIGGER_AUTHORIZED: 'true'
+          AGENT_REPOSITORY_KEY: demo
+        run: npm run github:enqueue -- --live --fixture "$GITHUB_EVENT_PATH" --event-name "$GITHUB_EVENT_NAME"
+      - name: Process one job with the default mock runner
+        run: npm run worker -- --once

@@ -1,0 +1,29 @@
+services:
+  bridge:
+    build: .
+    image: event-driven-ai-agents:local
+    command: ["node", "scripts/server.mjs"]
+    environment:
+      HOST: 0.0.0.0
+      EVENT_WEBHOOK_SECRET: ${EVENT_WEBHOOK_SECRET:?set a random webhook secret}
+      WORKER_TOKEN: ${WORKER_TOKEN:?set a different random worker token}
+    ports: ["127.0.0.1:${BRIDGE_PORT:-8787}:8787"]
+    volumes: ["jobs:/app/.state"]
+    read_only: true
+    tmpfs: ["/tmp"]
+    init: true
+    restart: unless-stopped
+  worker:
+    build: .
+    image: event-driven-ai-agents:local
+    command: ["node", "scripts/worker.mjs"]
+    environment:
+      ALLOW_CODEX: "false"
+      ALLOW_GIT_WRITES: "false"
+    volumes: ["jobs:/app/.state"]
+    read_only: true
+    tmpfs: ["/tmp"]
+    init: true
+    restart: unless-stopped
+volumes:
+  jobs:

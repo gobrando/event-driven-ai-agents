@@ -1,0 +1,15 @@
+{
+  "mode": "mock",
+  "publish": false,
+  "workRoot": "/absolute/path/to/disposable-agent-work",
+  "repositories": {
+    "demo": {
+      "path": "/absolute/path/to/synthetic-demo-repository",
+      "githubRepository": "example/synthetic-demo",
+      "baseRef": "HEAD",
+      "baseBranch": "main",
+      "checks": [["node", "--test"]],
+      "allowedPaths": ["src/", "test/"]
+    }
+  }
+}

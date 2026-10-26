@@ -1,0 +1,26 @@
+{
+  "name": "event-driven-agents-vercel-example",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "mock": "node scripts/replay.mjs",
+    "subscriptions": "node scripts/subscriptions.mjs",
+    "worker": "node src/worker-main.mjs",
+    "db:migrate": "node scripts/migrate.mjs"
+  },
+  "dependencies": {
+    "@ai-sdk/mcp": "2.0.78",
+    "@vercel/connect": "2.5.2",
+    "@vercel/oidc": "4.0.1",
+    "@vercel/queue": "0.8.0",
+    "postgres": "3.4.9"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "nock": "15.0.2"
+  },
+  "overrides": { "@vercel/oidc": "4.0.1" }
+}

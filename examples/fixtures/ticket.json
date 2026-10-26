@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "synthetic-ticket-001",
+  "source": "synthetic",
+  "type": "ticket.ready",
+  "repository": "demo",
+  "occurredAt": "2026-10-26T12:00:00.000Z",
+  "data": {
+    "title": "Correct addition in the synthetic calculator",
+    "body": "Synthetic test task: add(2, 3) currently returns -1. It should return 5. Run the addition test and prepare a reviewable patch."
+  }
+}

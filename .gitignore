@@ -1,0 +1,13 @@
+node_modules/
+.state/
+.env*
+!.env.example
+*.log
+coverage/
+.vercel/
+.DS_Store
+agent.config.json
+!examples/agent.config.json
+auth.json
+*.pem
+*.key

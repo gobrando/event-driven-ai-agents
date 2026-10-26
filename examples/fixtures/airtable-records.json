@@ -1,0 +1,19 @@
+{
+  "records": [
+    {
+      "id": "recSyntheticReady001",
+      "createdTime": "2026-10-26T12:00:00.000Z",
+      "fields": {
+        "Ready": true,
+        "Run revision": 1,
+        "Title": "Correct addition in the synthetic calculator",
+        "Body": "Synthetic example: add(2, 3) should return 5. Prepare and test the fix."
+      }
+    },
+    {
+      "id": "recSyntheticDraft002",
+      "createdTime": "2026-10-26T12:00:00.000Z",
+      "fields": { "Title": "Incomplete synthetic ticket", "Run revision": 1 }
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "outputDirectory": "public",
+  "daemons": {
+    "triage-worker": {
+      "root": ".",
+      "entrypoint": "Dockerfile",
+      "instances": { "iad1": 0 },
+      "terminationGracePeriodSeconds": 50
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "event-driven-ai-agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable event triggers and durable jobs for reviewable AI agent work.",
+  "license": "MIT",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "lint": "eslint src scripts tests",
+    "check": "npm run lint && npm test",
+    "demo": "node scripts/demo.mjs",
+    "server": "node scripts/server.mjs",
+    "worker": "node scripts/worker.mjs",
+    "airtable:poll": "node scripts/poll-airtable.mjs",
+    "github:enqueue": "node scripts/github-event.mjs",
+    "webhook:send": "node scripts/send-event.mjs",
+    "test:vercel": "npm --prefix examples/vercel test",
+    "demo:vercel": "npm --prefix examples/vercel run mock",
+    "test:container": "node scripts/container-smoke.mjs"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.13.0",
+    "globals": "16.5.0"
+  }
+}

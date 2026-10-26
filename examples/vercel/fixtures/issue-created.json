@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "deliveryId": "synthetic-delivery-001",
+  "subscriptionId": "synthetic-subscription-001",
+  "source": { "type": "mcp", "connectorId": "synthetic-connector-001" },
+  "context": {},
+  "event": {
+    "eventId": "synthetic-event-001",
+    "name": "synthetic.issue.created",
+    "timestamp": "2026-10-16T12:00:00.000Z",
+    "data": {
+      "id": "TEST-001",
+      "title": "Example export button returns an empty file",
+      "body": "Synthetic reproduction: open the sample board, choose Export, and inspect the downloaded file. Expected: two synthetic rows. Observed: zero rows."
+    },
+    "cursor": null
+  }
+}

@@ -1,0 +1,12 @@
+.git
+.state
+.env*
+node_modules
+tests
+docs
+examples/vercel
+*.log
+agent.config.json
+**/auth.json
+**/*.pem
+**/*.key
